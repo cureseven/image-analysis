@@ -18,7 +18,7 @@ for(int i = 0;i <( img_out -> cols);i++){
    for(int j = 0;j <( img_out -> rows);j++){
       int X = i + x0;
       int Y = j + y0;
-      if(X<0||Y<0){
+      if( X<0 || Y<0 || X >= img_out -> cols || Y >= img_out -> rows ){
          img_out -> p[j][i] = 255;
       }else{
     　img_out -> p[j][i] = img_in -> p[j][i];
