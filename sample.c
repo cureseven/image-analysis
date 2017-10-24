@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include "pnmimg.h"
 // プロトタイプ宣言
-#include "mv.c"
+// #include "mv.c"
 
 #ifdef __STDC__
 int
@@ -26,17 +26,34 @@ main( argc, argv )
 	if ( argc >= 2 ) name_img_in = argv[1] ;
 	if ( argc >= 3 ) name_img_out = argv[2] ;
 
-	if (!( img_in = readGrayimg( name_img_in ))) {　/* カラー画像を読み込んでくる */
+  /* カラー画像を読み込んでくる */
+	if (!( img_in = readGrayimg( name_img_in ))) {
 		printError( name_img_in ) ;
 		return(1) ;
 	}
-	img_out = allocGrayimg(img_in -> cols, img_in -> rows); /* 空の画像を作る */
+
+  /* 空の画像を作る */
+	img_out = allocGrayimg(img_in -> cols, img_in -> rows);
+
 
   // 処理
-  img_out = mv(img_in);
+  float rx = 2.3;
+  float ry = 2.3;
+for(int i = 0;i <( img_out -> cols);i++){
+   for(int j = 0;j <( img_out -> rows);j++){
+      int X = i / rx;
+      int Y = j / ry;
+      if( X<0 || Y<0 || X >= img_out -> cols || Y >= img_out -> rows ){
+         img_out -> p[j][i] = 255;
+      }else{
+    　img_out -> p[j][i] = img_in -> p[Y][X];
+      }
+   }
+}
 
 
-	if ( writeGrayimg( img_out, name_img_out ) == HAS_ERROR ) { /* グレー画像を作成 */
+  /* グレー画像を作成 */
+	if ( writeGrayimg( img_out, name_img_out ) == HAS_ERROR ) {
     	printError( name_img_out ) ;
     	return(1) ;
   	}

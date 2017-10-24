@@ -12,8 +12,6 @@ GRAY_img *mv(GRAY_img *img_in){
   }
 
   //移動
-  // int x0 = 100;
-  // int y0 = 40;
 int x0 = -20;
 int y0 = -40;
 for(int i = 0;i <( img_out -> cols);i++){
