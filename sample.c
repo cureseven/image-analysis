@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <ctype.h>
+#include <math.h>
 #include "pnmimg.h"
+#define PI 3.141592
 // プロトタイプ宣言
 // #include "mv.c"
-#include "enlarge.c"
+// #include "enlarge.c"
 
 #ifdef __STDC__
 int
@@ -38,7 +40,24 @@ main( argc, argv )
 
 
   // 処理
-　img_out = enlarge(img_in);
+  int x0 = 50;
+  int y0 = 50;
+  // int rad = 30;
+  // double deg = 30;
+  // double rad = deg * PI / 180.0;
+  int rad = 45;
+
+  for(int i = 0;i <( img_out -> cols);i++){
+     for(int j = 0;j <( img_out -> rows);j++){
+        int X = (int)((i-x0)*cos(rad)) - (int)((j-y0)*sin(rad)) + x0;
+        int Y = (int)((i-x0)*sin(rad)) + (int)((j-y0)*cos(rad)) + y0;
+        if( X<0 || Y<0 || X >= img_out -> cols || Y >= img_out -> rows ){
+           img_out -> p[j][i] = 255;
+        }else{
+      　img_out -> p[j][i] = img_in -> p[(int)(floor(Y))][(int)(floor(X))];
+        }
+     }
+  }
 
 
   /* グレー画像を作成 */
